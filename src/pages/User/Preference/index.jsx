@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import DisplayModal from "components/Modal";
 import { Card, Row, Col, Form } from "react-bootstrap";
 import * as Yup from "yup";
+import { history } from "App";
 import { Spinner as CenteredSpinner } from "elements/Spinner";
 import { BorderedButton, FilledButton } from "elements/Button";
 import DisplayPreference from "components/DisplayComponent/DisplayPreference";
@@ -29,6 +30,7 @@ const preferencesOrder = ["1st", "2nd", "3rd", "4th", "5th", "6th"];
 const Preference = ({
   appId,
   course,
+  isAdmin,
   department,
   getCourseAction,
   preferencesRecord,
@@ -41,21 +43,21 @@ const Preference = ({
   getPreferencesRecordByIdAction,
 }) => {
   useEffect(() => {
-    async function getCourseAndPreferences(appId) {
-      await getCourseAction();
-      await getDepartmentAction();
-      await getApplicationStatusAction(appId);
-      await getPreferencesRecordByIdAction(appId);
+    async function getCourseAndPreferences(appId, isAdmin) {
+      if (appId && !isAdmin) {
+        await getCourseAction();
+        await getDepartmentAction();
+        await getApplicationStatusAction(appId);
+        await getPreferencesRecordByIdAction(appId);
+      }
     }
-
-    getCourseAndPreferences(appId);
+    getCourseAndPreferences(appId, isAdmin);
   }, []);
 
   const [selectedDepartment, handleSelectDepartment] = useState("");
   const [isSubmitting, handleSubmission] = useState(false);
   const [validated, setValidated] = useState(false);
   const [modalShow, setModalShow] = useState(false);
-  const { isSubmitted } = applicationStatus;
 
   const handleDeleteClick = async (delPreference) => {
     handleSubmission(true);
@@ -167,6 +169,7 @@ const Preference = ({
   };
 
   if (preferencesRecord?.success && !isSubmitting) {
+  const [{ isSubmitted } = {}] = applicationStatus || [];
     return (
       <>
         <Card className="mt-4 px-2 py-4">
@@ -215,11 +218,12 @@ const Preference = ({
 };
 
 const mapStateToProp = (state) => ({
-  appId: state.auth.appId,
-  course: state.preference.course,
-  department: state.preference.department,
-  preferencesRecord: state.preference.record,
-  applicationStatus: state.app.data[0],
+  appId: state?.auth?.appId,
+  isAdmin: state?.auth?.isAdmin,
+  course: state?.preference?.course,
+  department: state?.preference?.department,
+  preferencesRecord: state?.preference?.record,
+  applicationStatus: state?.app?.data,
 });
 
 export default connect(mapStateToProp, {
