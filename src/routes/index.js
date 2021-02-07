@@ -4,7 +4,8 @@ import { map } from "lodash";
 import { Spinner as CenteredSpinner } from "elements/Spinner";
 import ProtectedRoute from "components/ProtectedRoute";
 import siteLayout from "layouts/Site/index";
-import dashboardLayout from "layouts/Dashboard/index";
+import userDashboardLayout from "layouts/Dashboard/UserDashboard";
+import adminDashboardLayout from "layouts/Dashboard/AdminDashboard";
 import profileLayout from "layouts/Profile/index";
 import Logout from "pages/Auth/Logout";
 const Signup = lazy(() => import("pages/Auth/Signup"));
@@ -19,7 +20,8 @@ const Experience = lazy(() => import("pages/User/Experience"));
 const Preference = lazy(() => import("pages/User/Preference"));
 const Documents = lazy(() => import("pages/User/Documents"));
 const Submit = lazy(() => import("pages/User/Submit"));
-const Dashboard = lazy(() => import("pages/User/Dashboard"));
+const userDashboard = lazy(() => import("pages/User/Dashboard"));
+const adminDashboard = lazy(() => import("pages/Admin/Dashboard"));
 
 const RouterHOC = (routes, defaultPath = "/login") => {
   return (props) => {
@@ -41,51 +43,58 @@ const RouterHOC = (routes, defaultPath = "/login") => {
   };
 };
 
-export const dashboardRoutes = {
+export const userDashboardRoutes = {
   PROFILE: {
     name: "profile",
     path: "/user/profile",
     isProtected: true,
-    component: profileLayout(Profile),
+    component: userDashboardLayout(profileLayout(Profile)),
   },
   ACADEMICS: {
     name: "academics",
     path: "/user/academics",
     isProtected: true,
-    component: profileLayout(Academics),
+    component: userDashboardLayout(profileLayout(Academics)),
   },
   EXPERIENCE: {
     name: "experience",
     path: "/user/experience",
     isProtected: true,
-    component: profileLayout(Experience),
+    component: userDashboardLayout(profileLayout(Experience)),
   },
   PREFERENCES: {
     name: "preferences",
     path: "/user/preferences",
     isProtected: true,
-    component: profileLayout(Preference),
+    component: userDashboardLayout(profileLayout(Preference)),
   },
   DOUCMENTS: {
     name: "documents",
     path: "/user/documents",
-    component: profileLayout(Documents),
+    component: userDashboardLayout(profileLayout(Documents)),
   },
   SUBMIT: {
     name: "submit",
     path: "/user/submit",
     isProtected: true,
-    component: profileLayout(Submit),
+    component: userDashboardLayout(profileLayout(Submit)),
   },
   DASHBOARD: {
-    name: "dashboard",
+    name: "userDashboard",
     path: "/user/dashboard",
     isProtected: true,
-    component: Dashboard,
+    component: userDashboardLayout(userDashboard),
   },
 };
 
-// const adminDashboardRoutes = {};
+export const adminDashboardRoutes = {
+  ADMINDASHBOARD: {
+    name: "adminDashboard",
+    path: "/admin/dashboard",
+    isProtected: true,
+    component: adminDashboardLayout(adminDashboard),
+  }
+};
 
 export const AppRoutes = {
   SIGNUP: {
@@ -130,18 +139,8 @@ export const AppRoutes = {
     isProtected: false,
     component: siteLayout(ResetPassword),
   },
-  USERDASHBOARD: {
-    name: "userDashboard",
-    path: "/",
-    isProtected: false,
-    component: dashboardLayout(RouterHOC(dashboardRoutes, "/login")),
-  },
-  // ADMINDASHBOARD: {
-  //   name: '',
-  //   path: '',
-  //   isProtected: false,
-  //   component: RouterHOC(adminDashboardRoutes, '/login'),
-  // },
+  ...userDashboardRoutes,
+  ...adminDashboardRoutes,
 };
 
 export const AppRouter = RouterHOC(AppRoutes, "/login");
