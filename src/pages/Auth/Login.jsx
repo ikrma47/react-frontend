@@ -8,7 +8,7 @@ import { APP_NAME } from "config";
 import { authenticateUserAction } from "pages/Auth/ducks/actions";
 import TextField from "../../elements/Form/TextField";
 import { FilledButton, BorderedButton } from "../../elements/Button";
-import { AppRoutes, dashboardRoutes } from "routes";
+import { AppRoutes, userDashboardRoutes, adminDashboardRoutes } from "routes";
 import { isLoggedIn } from "utils/user";
 
 const initStates = {
@@ -35,10 +35,22 @@ const validation = Yup.object({
   password: Yup.string().required("Password should not be empty."),
 });
 
-const Login = ({ authenticateUserAction, history, isVerified, appId }) => {
+const Login = ({
+  authenticateUserAction,
+  history,
+  isVerified,
+  appId,
+  isAdmin,
+}) => {
   React.useEffect(() => {
-    if (isLoggedIn()) history.push(dashboardRoutes.DASHBOARD.path);
-  });
+    (() => {
+      if (isLoggedIn()) {
+        if (isAdmin === true) history.push("/admin/dashboard");
+        else if (isAdmin === false)
+          history.push(userDashboardRoutes.DASHBOARD.path);
+      }
+    })();
+  }, [isAdmin]);
 
   const [errorMsg, handleErrorMsg] = useState("");
   const [isSubmitting, handleSubmission] = useState(false);
