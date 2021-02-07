@@ -1,0 +1,3 @@
+export const FORGET_PASSWORD = 'FORGET_PASSWORD';
+export const VERIFY_OTP = 'VERIFY_OTP';
+export const RESET_PASSWORD = 'RESET_PASSWORD';

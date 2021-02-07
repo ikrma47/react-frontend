@@ -1,0 +1,2 @@
+export const GET_DOCUMENT = "GET_DOCUMENT";
+export const SUBMIT_DOCUMENT = "SUBMIT_DOCUMENT";
