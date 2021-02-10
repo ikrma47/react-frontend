@@ -103,7 +103,7 @@ const Documents = ({
   }, []);
 
   const [isSubmitting, handleSubmission] = useState(false);
-  const { isSubmitted } = applicationStatus;
+  const { isSubmitted = false } = applicationStatus[0] || {};
   const refValues = {};
 
   function getRefValue(docName, ref) {
@@ -144,8 +144,8 @@ const Documents = ({
 
 const mapStateToProp = (state) => ({
   appId: state?.auth?.appId,
-  documents: state?.documents,
-  applicationStatus: state?.app?.data[0],
+  documents: state?.user?.documents,
+  applicationStatus: state?.app?.data,
 });
 
 export default connect(mapStateToProp, {
