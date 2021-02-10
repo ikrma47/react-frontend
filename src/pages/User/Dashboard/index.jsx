@@ -60,7 +60,7 @@ function message(applicationStatus, courseCategory) {
 
 const Dashboard = ({
   appId,
-  userDashboard,
+  dashboard,
   applicationStatus,
   getUserDashboardAction,
   getApplicationStatusAction,
@@ -75,8 +75,8 @@ const Dashboard = ({
     getUserDataById();
   }, []);
 
-  if (userDashboard?.success && applicationStatus?.success) {
-    const { name, courseCategory, image } = userDashboard.data[0].detail || {};
+  if (dashboard?.success && applicationStatus?.success) {
+    const { courseCategory } = dashboard.data[0] || {};
     return (
       <ErrorBoundary>
         <DisplayDashboard
@@ -87,15 +87,8 @@ const Dashboard = ({
             "Course Category",
             "Status",
           ]}
-          applicants={[
-            {
-              image,
-              appId,
-              name,
-              courseCategory,
-              message: message(applicationStatus.data[0], courseCategory),
-            },
-          ]}
+          applicants={dashboard.data}
+          message={message(applicationStatus.data[0], courseCategory)}
         />
       </ErrorBoundary>
     );
@@ -106,7 +99,7 @@ const Dashboard = ({
 
 const mapStateToProp = (state) => ({
   appId: state?.auth?.appId,
-  userDashboard: state?.userDashboard,
+  dashboard: state?.user?.dashboard,
   applicationStatus: state?.app,
 });
 
