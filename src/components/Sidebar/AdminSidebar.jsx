@@ -8,8 +8,8 @@ const Sidebar = memo(() => {
     <Wrapper>
       <Nav>
         <Link to={adminDashboardRoutes.ADMINDASHBOARD.path}>Dashboard</Link>
-        {/* <Link to={adminDashboardRoutes.PROFILE.path}>Profile</Link> */}
-        {/* <Link to={adminDashboardRoutes.}>Change Password</Link> */}
+        <Link to={adminDashboardRoutes.DEPARTMENT.path}>Departments</Link>
+        <Link to={adminDashboardRoutes.COURSE.path}>Courses</Link>
         <Link to={AppRoutes.LOGOUT.path}>Logout</Link>
       </Nav>
     </Wrapper>
