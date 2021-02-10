@@ -169,7 +169,7 @@ const Preference = ({
   };
 
   if (preferencesRecord?.success && !isSubmitting) {
-  const [{ isSubmitted } = {}] = applicationStatus || [];
+    const [{ isSubmitted } = {}] = applicationStatus || [];
     return (
       <>
         <Card className="mt-4 px-2 py-4">
@@ -220,9 +220,9 @@ const Preference = ({
 const mapStateToProp = (state) => ({
   appId: state?.auth?.appId,
   isAdmin: state?.auth?.isAdmin,
-  course: state?.preference?.course,
-  department: state?.preference?.department,
-  preferencesRecord: state?.preference?.record,
+  course: state?.user?.preference?.course,
+  department: state?.user?.preference?.department,
+  preferencesRecord: state?.user?.preference?.record,
   applicationStatus: state?.app?.data,
 });
 
