@@ -64,7 +64,7 @@ const Submit = ({
     isEighthSemesterDmc,
     isBsCertificate,
     isSubmitted,
-  } = applicationStatus;
+  } = applicationStatus || {};
 
   var isAcademics = false;
   var isDocumentsUpload = false;
@@ -212,7 +212,7 @@ const Submit = ({
 const mapStateToProp = (state) => ({
   appId: state?.auth?.appId,
   applicationStatus: state?.app?.data[0],
-  courseCategory: state?.profile?.data[0]?.detail?.courseCategory,
+  courseCategory: state?.user?.profile?.data[0]?.courseCategory,
 });
 
 export default connect(mapStateToProp, {
