@@ -2,7 +2,7 @@ import map from "lodash/map";
 import size from "lodash/size";
 import last from "lodash/last";
 import replace from "lodash/replace";
-import { API_BASE_PATH_USER } from "config";
+import { API_BASE_PATH_USER, API_BASE_PATH_ADMIN } from "config";
 
 const ROUTES_OBJ = {
   signup: `${API_BASE_PATH_USER}/signup`,
@@ -32,6 +32,7 @@ const ROUTES_OBJ = {
   getDocument: `${API_BASE_PATH_USER}/document/<appId>`,
   submitDocument: `${API_BASE_PATH_USER}/document`,
   uploadDocument: `${API_BASE_PATH_USER}/document`,
+  adminDashboard: `${API_BASE_PATH_ADMIN}/dashboard`
 };
 /**
  * getRoute creates the URL through provided routeName & params arguments
