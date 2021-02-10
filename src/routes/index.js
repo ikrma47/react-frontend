@@ -93,6 +93,18 @@ export const adminDashboardRoutes = {
     path: "/admin/dashboard",
     isProtected: true,
     component: adminDashboardLayout(adminDashboard),
+  },
+  DEPARTMENT: {
+    name: "department",
+    path: "/admin/department",
+    isProtected: true,
+    component: adminDashboardLayout(adminDashboard)
+  },
+  COURSE: {
+    name: "course",
+    path: "/admin/course",
+    isProtected: true,
+    component: adminDashboardLayout(adminDashboard)
   }
 };
 
