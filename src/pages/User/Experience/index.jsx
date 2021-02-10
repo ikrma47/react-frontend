@@ -58,7 +58,7 @@ const Experience = ({
 
   const [modalShow, setModalShow] = useState(false);
   const [isSubmitting, handleSubmission] = useState(false);
-  const { isSubmitted } = applicationStatus;
+  const { isSubmitted = false } = applicationStatus[0] || {};
 
   const submitHandler = async ({
     from: reversedStartingDate,
@@ -241,9 +241,9 @@ const Experience = ({
 };
 
 const mapStateToProps = (state) => ({
-  experience: state?.experience,
+  experience: state?.user?.experience,
   appId: state?.auth?.appId,
-  applicationStatus: state?.app?.data[0],
+  applicationStatus: state?.app?.data,
 });
 
 export default connect(mapStateToProps, {
