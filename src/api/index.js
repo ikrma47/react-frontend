@@ -223,3 +223,9 @@ export const deletePreference = (preference) => {
   const route = getRoute("deletePreference", { preference });
   return deleteRequest(route);
 };
+
+export const getAdminDashboard = () => {
+  setAuthHeader();
+  const route = getRoute("adminDashboard");
+  return getRequest(route);
+}
