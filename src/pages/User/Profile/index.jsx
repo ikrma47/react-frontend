@@ -144,8 +144,8 @@ const Profile = ({
     image,
   };
 
-  if (profile?.success) {
-    const { isSubmitted = false } = applicationStatus[0] || {};
+  if (profile?.success && applicationStatus?.success) {
+    const { isSubmitted = false } = applicationStatus.data?.[0] || {};
     return (
       <DisplayProfile
         initialValues={initialValues}
@@ -167,7 +167,7 @@ const Profile = ({
 const mapStateToProp = (state) => ({
   appId: state?.auth?.appId,
   profile: state?.user?.profile,
-  applicationStatus: state?.app?.data,
+  applicationStatus: state?.app,
 });
 
 export default connect(mapStateToProp, {
