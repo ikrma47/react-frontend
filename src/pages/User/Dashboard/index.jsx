@@ -58,8 +58,11 @@ function message(applicationStatus, courseCategory) {
     return "Please wait until your application has been accepted by Admission Office";
 }
 
+const tableHeads = ["Picture", "App#Id", "Name", "Course Category", "Status"];
+
 const Dashboard = ({
   appId,
+  history,
   dashboard,
   applicationStatus,
   getUserDashboardAction,
@@ -80,15 +83,10 @@ const Dashboard = ({
     return (
       <ErrorBoundary>
         <DisplayDashboard
-          tableHeads={[
-            "Picture",
-            "App#Id",
-            "Name",
-            "Course Category",
-            "Status",
-          ]}
+          tableHeads={tableHeads}
           applicants={dashboard.data}
           message={message(applicationStatus.data[0], courseCategory)}
+          handleClick={() => history.push("/user/profile")}
         />
       </ErrorBoundary>
     );
