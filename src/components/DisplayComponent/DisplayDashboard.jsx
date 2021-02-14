@@ -1,7 +1,8 @@
 import React from "react";
 import { Card, Table, Image } from "react-bootstrap";
 import unavailable from "assets/img/unavailable.png";
-import { history } from "App";
+
+const defaultHandler = () => {};
 
 const DisplayDashboard = ({
   message = "",
@@ -9,6 +10,7 @@ const DisplayDashboard = ({
   applicants = [],
   actionButtons = [],
   buttonHandlers = [],
+  handleClick = defaultHandler,
 }) => {
   return (
     <div className="col-lg-12 grid-margin stretch-card mt-4">
@@ -27,11 +29,11 @@ const DisplayDashboard = ({
             <tbody>
               {applicants?.map(function displayApplicantData(data) {
                 return (
-                  <tr key={`${data.name} ${data.appId}`}>
+                  <tr key={`${data?.name} ${data?.appId}`}>
                     <td
-                      key={`${data.appId} ${data.image}`}
+                      key={`${data?.appId} ${data?.image}`}
                       className="py-2"
-                      onClick={() => history.push("/user/profile")}
+                      onClick={() => handleClick(data?.appId)}
                     >
                       <Image
                         key={data?.image || unavailable}
@@ -43,25 +45,25 @@ const DisplayDashboard = ({
                     </td>
                     <td
                       key={data?.appId || "appId"}
-                      onClick={() => history.push("/user/profile")}
+                      onClick={() => handleClick(data?.appId)}
                     >
                       {data?.appId || "-"}
                     </td>
                     <td
                       key={data?.name || "name"}
-                      onClick={() => history.push("/user/profile")}
+                      onClick={() => handleClick(data?.appId)}
                     >
                       {data?.name || "-"}
                     </td>
                     <td
                       key={data?.courseCategory || "courseCategory"}
-                      onClick={() => history.push("/user/profile")}
+                      onClick={() => handleClick(data?.appId)}
                     >
                       {data?.courseCategory || "-"}
                     </td>
                     <td
                       key={message || "message"}
-                      onClick={() => history.push("/user/profile")}
+                      onClick={() => handleClick(data?.appId)}
                     >
                       {message}
                     </td>
