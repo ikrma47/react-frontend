@@ -9,6 +9,7 @@ import {
 } from "pages/Admin/ApplicationForm/Submit/ducks/actions";
 
 const Submission = ({
+	email,
 	appId,
 	history,
 	comments,
@@ -30,7 +31,11 @@ const Submission = ({
 	const onSubmit = async ({ comments }) => {
 		handleSubmission(true);
 		try {
-			await updateApplicationStatusByAdminAction(appId, { isSubmitted: false, comments });
+			await updateApplicationStatusByAdminAction(appId, {
+				isSubmitted: false,
+				comments,
+				rejectedBy: email,
+			});
 			handleSubmission(false);
 			history.push("/admin/dashboard");
 		} catch (error) {
@@ -41,7 +46,7 @@ const Submission = ({
 	const onAccept = async () => {
 		handleSubmission(true);
 		try {
-			await updateApplicationStatusByAdminAction(appId, { isAccepted: true });
+			await updateApplicationStatusByAdminAction(appId, { isAccepted: true, acceptedBy: email });
 			handleSubmission(false);
 			history.push("/admin/dashboard");
 		} catch (error) {
@@ -66,6 +71,7 @@ const Submission = ({
 };
 
 const mapStateToProps = (state) => ({
+	email: state.auth.email,
 	appId: state.app.selectedAppId,
 	applicationStatus: state.admin.submit,
 	isAccepted: state?.admin?.submit?.data?.[0].isAccepted,
