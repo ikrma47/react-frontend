@@ -1,62 +1,109 @@
-import React, { useEffect } from "react";
 import { connect } from "react-redux";
+import { Tabs, Tab } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { selectAppIdAction } from "pages/App/ducks/actions";
 import { Spinner as CenteredSpinner } from "elements/Spinner";
-import DisplayDashboard from "components/DisplayComponent/DisplayDashboard";
-import { getAdminDashboardAction } from "pages/Admin/Dashboard/ducks/actions";
 import { BorderedButton, FilledButton } from "elements/Button";
+import DisplayDashboard from "components/DisplayComponent/DisplayDashboard";
+import {
+	getAdminDashboardAction,
+	updateApplicationStatusByAdminAction,
+} from "pages/Admin/Dashboard/ducks/actions";
 
-const tableHeads = [
-  "user",
-  "app#ID",
-  "Name",
-  "Course Category",
-  "Status",
-  "Accept",
-  "Reject",
-];
-const message = "Waiting to be accepted";
+const tableHeads = ["user", "app#ID", "Name", "Course Category", "Status", "Accept", "Reject"];
 
-const Dashboard = ({ dashboard, getAdminDashboardAction }) => {
-  useEffect(() => {
-    async function getAdminDashboard() {
-      await getAdminDashboardAction();
-    }
+const Dashboard = ({
+	history,
+	dashboard,
+	selectAppIdAction,
+	getAdminDashboardAction,
+	updateApplicationStatusByAdminAction,
+}) => {
+	useEffect(() => {
+		async function getAdminDashboard() {
+			await getAdminDashboardAction();
+		}
 
-    getAdminDashboard();
-  }, []);
+		getAdminDashboard();
+	}, []);
 
-  const acceptHandler = (appId) => console.log(appId);
-  const rejectHandler = (appId) => console.log(appId);
+	const [key, setKey] = useState("submittedApplications");
 
-  const AcceptButton = (props) => {
-    return (
-      <BorderedButton {...props} type="button">
-        Accept
-      </BorderedButton>
-    );
-  };
+	const acceptHandler = async (appId) => {
+		try {
+			await updateApplicationStatusByAdminAction(appId, { isAccepted: true });
+		} catch (error) {
+			console.log(error);
+		}
+	};
+	const rejectHandler = async (appId) => {
+		try {
+			await updateApplicationStatusByAdminAction(appId, { isSubmitted: false });
+		} catch (error) {
+			console.log(error);
+		}
+	};
+	const handleClick = (appId) => {
+		selectAppIdAction(appId);
+		history.push("/admin/applicant/profile");
+	};
 
-  const RejectButton = (props) => {
-    return (
-      <FilledButton {...props} type="button">
-        Reject
-      </FilledButton>
-    );
-  };
+	const AcceptButton = (props) => {
+		return (
+			<BorderedButton {...props} type="button">
+				Accept
+			</BorderedButton>
+		);
+	};
 
-  if (dashboard?.success)
-    return (
-      <DisplayDashboard
-        tableHeads={tableHeads}
-        applicants={dashboard.data}
-        message={message}
-        actionButtons={[AcceptButton, RejectButton]}
-        buttonHandlers={[acceptHandler, rejectHandler]}
-      />
-    );
-  else return <CenteredSpinner />;
+	const RejectButton = (props) => {
+		return (
+			<FilledButton {...props} type="button">
+				Reject
+			</FilledButton>
+		);
+	};
+
+	if (dashboard?.success) {
+		const [{ submittedApplicantsDetails = [] } = {}, { acceptedApplicantsDetails = [] } = {}] =
+			dashboard.data || [];
+		return (
+			<Tabs
+				justify
+				variant="pills"
+				activeKey={key}
+				transition={false}
+				className="mt-4 mx-3"
+				id="adminDashboardTabs"
+				onSelect={(k) => setKey(k)}
+			>
+				<Tab eventKey="submittedApplications" title="Submitted Applications">
+					<DisplayDashboard
+						tableHeads={tableHeads}
+						handleClick={handleClick}
+						message={"waiting to be accepted"}
+						applicants={submittedApplicantsDetails}
+						actionButtons={[AcceptButton, RejectButton]}
+						buttonHandlers={[acceptHandler, rejectHandler]}
+					/>
+				</Tab>
+				<Tab eventKey="acceptedApplication" title="Accepted Application">
+					<DisplayDashboard
+						message={"Accepted"}
+						handleClick={handleClick}
+						applicants={acceptedApplicantsDetails}
+						tableHeads={tableHeads.slice(0, tableHeads.length - 2)}
+					/>
+				</Tab>
+			</Tabs>
+		);
+	} else return <CenteredSpinner />;
 };
 
 const mapStateToProps = (state) => ({ dashboard: state?.admin?.dashboard });
 
-export default connect(mapStateToProps, { getAdminDashboardAction })(Dashboard);
+export default connect(mapStateToProps, {
+	updateApplicationStatusByAdminAction,
+	getAdminDashboardAction,
+	selectAppIdAction,
+})(Dashboard);
