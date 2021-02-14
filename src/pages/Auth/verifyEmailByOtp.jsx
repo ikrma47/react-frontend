@@ -5,9 +5,8 @@ import { Card, Alert } from "react-bootstrap";
 import { Formik, Form } from "formik";
 import TextField from "elements/Form/TextField";
 import { FilledButton } from "elements/Button";
-import { isLoggedIn } from "utils/user";
 import * as Yup from "yup";
-import { AppRoutes, dashboardRoutes } from "routes";
+import { AppRoutes } from "routes";
 import { verifyEmailByOtpAction } from "pages/Auth/ducks/actions";
 
 const initialValues = { otp: "" };
@@ -24,7 +23,6 @@ const validate = Yup.object({
 const VerifyEmailByOtp = ({ verifyEmailByOtpAction, email, history }) => {
   React.useEffect(() => {
     if (!email) history.replace(AppRoutes.LOGIN.path);
-    if (isLoggedIn()) history.replace(dashboardRoutes.DASHBOARD.path);
   });
 
   const [message, handleMessage] = React.useState("");
