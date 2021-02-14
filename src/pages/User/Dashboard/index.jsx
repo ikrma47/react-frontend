@@ -58,9 +58,12 @@ function message(applicationStatus, courseCategory) {
     return "Please wait until your application has been accepted by Admission Office";
 }
 
+const tableHeads = ["Picture", "App#Id", "Name", "Course Category", "Status"];
+
 const Dashboard = ({
   appId,
-  userDashboard,
+  history,
+  dashboard,
   applicationStatus,
   getUserDashboardAction,
   getApplicationStatusAction,
@@ -75,27 +78,15 @@ const Dashboard = ({
     getUserDataById();
   }, []);
 
-  if (userDashboard?.success && applicationStatus?.success) {
-    const { name, courseCategory, image } = userDashboard.data[0].detail || {};
+  if (dashboard?.success && applicationStatus?.success) {
+    const { courseCategory } = dashboard.data[0] || {};
     return (
       <ErrorBoundary>
         <DisplayDashboard
-          tableHeads={[
-            "Picture",
-            "App#Id",
-            "Name",
-            "Course Category",
-            "Status",
-          ]}
-          applicants={[
-            {
-              image,
-              appId,
-              name,
-              courseCategory,
-              message: message(applicationStatus.data[0], courseCategory),
-            },
-          ]}
+          tableHeads={tableHeads}
+          applicants={dashboard.data}
+          message={message(applicationStatus.data[0], courseCategory)}
+          handleClick={() => history.push("/user/profile")}
         />
       </ErrorBoundary>
     );
@@ -106,7 +97,7 @@ const Dashboard = ({
 
 const mapStateToProp = (state) => ({
   appId: state?.auth?.appId,
-  userDashboard: state?.userDashboard,
+  dashboard: state?.user?.dashboard,
   applicationStatus: state?.app,
 });
 

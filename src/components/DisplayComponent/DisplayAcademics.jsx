@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { dashboardRoutes } from "routes";
+import { userDashboardRoutes } from "routes";
 import { FilledButton } from "elements/Button";
 import { ButtonGroup, Card, Table, Row, Col } from "react-bootstrap";
 
@@ -65,7 +65,7 @@ const DisplayAcademics = ({
       </Card>
       <Row className="mx-2 px-0 modal-footer">
         <Col md="auto">
-          <Link to={dashboardRoutes.EXPERIENCE.path}>
+          <Link to={userDashboardRoutes.EXPERIENCE.path}>
             <FilledButton type="button">Next</FilledButton>
           </Link>
         </Col>
