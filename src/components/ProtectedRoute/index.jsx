@@ -6,12 +6,12 @@ import { AppRoutes } from 'routes';
 const ProtectedRoute = ({ path, component, isProtected }) => {
   return isProtected ? (
     isLoggedIn() ? (
-      <Route path={path} component={component} />
+      <Route path={path} component={component} exact />
     ) : (
       <Redirect to={{ pathname: AppRoutes.LOGIN.path }} />
     )
   ) : (
-    <Route path={path} component={component} />
+    <Route path={path} component={component} exact />
   );
 };
 

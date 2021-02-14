@@ -60,7 +60,7 @@ const Academics = ({
   const [initialValues, setInitialValues] = useState({});
   const [isSubmitting, handleSubmission] = useState(false);
 
-  const { isSubmitted } = applicationStatus;
+  const { isSubmitted = false } = applicationStatus[0] || {};
 
   const handleSubmit = async (values) => {
     handleSubmission(true);
@@ -176,7 +176,7 @@ const Academics = ({
   };
 
   if (academics?.success) {
-    let [userAcademicRecords] = academics?.data;
+    let userAcademicRecords = academics?.data;
     return (
       <>
         <DisplayTable
@@ -214,10 +214,9 @@ const Academics = ({
 };
 
 const mapStateToProp = (state) => ({
-  academics: state?.academics,
-  isCourseCategory: state?.app?.data[0],
+  academics: state?.user?.academics,
   appId: state?.auth?.appId,
-  applicationStatus: state?.app?.data[0],
+  applicationStatus: state?.app?.data,
 });
 
 export default connect(mapStateToProp, {

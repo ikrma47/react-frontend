@@ -36,7 +36,7 @@ const successNotification = "User profile has been successully updated.";
 const Profile = ({
   appId,
   profile,
-  isSubmitted,
+  applicationStatus,
   getProfileByIdAction,
   updateProfileDetailsAction,
   updateProfilePictureAction,
@@ -144,7 +144,8 @@ const Profile = ({
     image,
   };
 
-  if (profile?.success) {
+  if (profile?.success && applicationStatus?.success) {
+    const { isSubmitted = false } = applicationStatus.data?.[0] || {};
     return (
       <DisplayProfile
         initialValues={initialValues}
@@ -165,8 +166,8 @@ const Profile = ({
 
 const mapStateToProp = (state) => ({
   appId: state?.auth?.appId,
-  profile: state?.profile,
-  isSubmitted: state?.app?.data[0]?.isSubmitted,
+  profile: state?.user?.profile,
+  applicationStatus: state?.app,
 });
 
 export default connect(mapStateToProp, {
