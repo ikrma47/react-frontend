@@ -91,7 +91,7 @@ const Login = ({ authenticateUserAction, history, isVerified, appId, isAdmin }) 
 						<TextField label="Password" name="password" type="password" placeholder="Password" />
 						<Row>
 							<Col className="mb-2">
-								<Link to={AppRoutes.FORGETPASSWORD.path}>Forget Password?</Link>
+								<Link to={AppRoutes.FORGETPASSWORD.path}>Forgot Password?</Link>
 							</Col>
 						</Row>
 						<FilledButton type="submit" disabled={isSubmitting ? true : false} className="mr-2">
