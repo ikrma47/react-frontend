@@ -4,9 +4,9 @@ import {
 } from "pages/Admin/Dashboard/ducks/action-types";
 import { getAdminDashboard, updateApplicationStatusByAdmin } from "api";
 
-export const getAdminDashboardAction = () => async (dispatch) => {
+export const getAdminDashboardAction = (params) => async (dispatch) => {
 	try {
-		let { data } = await getAdminDashboard();
+		let { data } = await getAdminDashboard(params);
 		dispatch({ type: GET_ADMIN_DASHBOARD, payload: data });
 	} catch (error) {
 		console.log(error);
