@@ -19,7 +19,7 @@ const DisplayProfile = ({
 	isSubmitting = true,
 	getRefValue = defaultHandler,
 	handleSubmit = defaultHandler,
-	validate = defaultValidation,
+	validation = defaultValidation,
 	handleUploadImage = defaultHandler,
 	initialValues = defaultInitialValue,
 }) => {
@@ -27,7 +27,7 @@ const DisplayProfile = ({
 		<Card className="px-2 pt-4 mt-4 mb-5">
 			<Card.Title className="text-center">Profile</Card.Title>
 			<Card.Body>
-				<Formik initialValues={initialValues} validationSchema={validate} onSubmit={handleSubmit}>
+				<Formik initialValues={initialValues} validationSchema={validation} onSubmit={handleSubmit}>
 					<Form>
 						<Row>
 							<Col md={4}>

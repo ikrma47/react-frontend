@@ -8,8 +8,6 @@ const DisplayDashboard = ({
 	message = "",
 	tableHeads = [],
 	applicants = [],
-	actionButtons = [],
-	buttonHandlers = [],
 	handleClick = defaultHandler,
 }) => {
 	return (
@@ -61,15 +59,6 @@ const DisplayDashboard = ({
 										>
 											{message}
 										</td>
-										{actionButtons.length > 0 &&
-											actionButtons.map((Button, idx) => (
-												<td key={`${data.appId} ${idx}`}>
-													<Button onClick={() => buttonHandlers[idx](data.appId)} />
-												</td>
-											))}
-										{data?.acceptedBy && (
-											<td key={`${data?.name} ${data.acceptedBy}`}>{data.acceptedBy}</td>
-										)}
 									</tr>
 								);
 							})}

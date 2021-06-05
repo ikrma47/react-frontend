@@ -23,6 +23,17 @@ const failedResponse = (error) => {
 	return Promise.reject(error);
 };
 
+const queryRequest = async (route, { params }) => {
+	if (!route) {
+		return;
+	}
+	try {
+		return await axios.get(route, { params });
+	} catch (error) {
+		return failedResponse(error);
+	}
+};
+
 const getRequest = async (route) => {
 	if (!route) {
 		return;
@@ -224,10 +235,10 @@ export const deletePreference = (preference) => {
 	return deleteRequest(route);
 };
 
-export const getAdminDashboard = () => {
+export const getAdminDashboard = (params) => {
 	setAuthHeader();
 	const route = getRoute("adminDashboard");
-	return getRequest(route);
+	return queryRequest(route, { params });
 };
 
 export const updateApplicationStatusByAdmin = (appId, dataObj) => {
