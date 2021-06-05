@@ -20,7 +20,7 @@ const DisplayPreference = ({
 					<Col md="3">Courses</Col>
 				</Row>
 			)}
-			{preferenceList?.map(({ preference, department, course }, idx) => {
+			{preferenceList?.map(({ preference, course }, idx) => {
 				return (
 					<Row key={idx}>
 						<Col md={{ offset: 2, span: 2 }}>
@@ -31,12 +31,12 @@ const DisplayPreference = ({
 						<Col md="3">
 							<Form.Group
 								key={idx}
-								controlId={`${department?.departmentName + idx}`}
+								controlId={`${course?.departments[0]?.departmentName + idx}`}
 								className="mt-4"
 							>
 								<Form.Control
 									name="departmentName"
-									value={`${department?.departmentName}`}
+									value={`${course?.departments[0]?.departmentName}`}
 									placeholder="Department"
 									disabled
 								/>
