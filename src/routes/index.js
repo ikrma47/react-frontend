@@ -25,6 +25,7 @@ const userDashboard = lazy(() => import("pages/User/Dashboard"));
 const adminDashboard = lazy(() => import("pages/Admin/Dashboard"));
 const Course = lazy(() => import("pages/Admin/Course"));
 const Department = lazy(() => import("pages/Admin/Department"));
+const AdvanceSearch = lazy(() => import("pages/Admin/AdvanceSearch"));
 const ApplicantProfile = lazy(() => import("pages/Admin/ApplicationForm/Profile"));
 const ApplicantAcademics = lazy(() => import("pages/Admin/ApplicationForm/Academics"));
 const ApplicantExperience = lazy(() => import("pages/Admin/ApplicationForm/Experience"));
@@ -150,6 +151,12 @@ export const adminDashboardRoutes = {
 		path: "/admin/course",
 		isProtected: true,
 		component: adminDashboardLayout(Course),
+	},
+	ADVANCESEARCH: {
+		name: "advanceSearch",
+		path: "/admin/advance-search",
+		isProtected: true,
+		component: adminDashboardLayout(AdvanceSearch),
 	},
 };
 

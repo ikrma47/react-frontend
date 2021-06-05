@@ -1,14 +1,16 @@
 import { connect } from "react-redux";
-import { Tabs, Tab } from "react-bootstrap";
+import querystring from "query-string";
+import { Tabs, Tab, Form } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
 import { selectAppIdAction } from "pages/App/ducks/actions";
 import { Spinner as CenteredSpinner } from "elements/Spinner";
 import { BorderedButton, FilledButton } from "elements/Button";
-import DisplayDashboard from "components/DisplayComponent/DisplayDashboard";
+import DisplayAdminDashboard from "components/DisplayComponent/DisplayAdminDashboard";
 import {
 	getAdminDashboardAction,
 	updateApplicationStatusByAdminAction,
 } from "pages/Admin/Dashboard/ducks/actions";
+import { adminDashboardRoutes } from "routes";
 
 const tableHeads = ["user", "app#ID", "Name", "Course Category", "Status", "Accept", "Reject"];
 
@@ -21,14 +23,35 @@ const Dashboard = ({
 	updateApplicationStatusByAdminAction,
 }) => {
 	useEffect(() => {
-		async function getAdminDashboard() {
-			await getAdminDashboardAction();
+		async function getAdminDashboard(params) {
+			await getAdminDashboardAction(params);
 		}
-
-		getAdminDashboard();
-	}, []);
+		getAdminDashboard(querystring.parse(history.location.search));
+	}, [history.location.search]);
 
 	const [key, setKey] = useState("submittedApplications");
+	const [name, setName] = useState("");
+	const [appId, setAppId] = useState("");
+	const [category, setCategory] = useState("All");
+	const [isSubmitting, handleSubmission] = useState(false);
+
+	const searchHandler = async () => {
+		handleSubmission(true);
+		try {
+			const params = {
+				name,
+				appId,
+				courseCategory: category == "All" ? "%" : category,
+				appIdGreaterThan: 0,
+				appIdSmallerThan: 0,
+			};
+			history.push(`${adminDashboardRoutes.ADMINDASHBOARD.path}?${querystring.stringify(params)}`);
+			handleSubmission(false);
+		} catch (error) {
+			console.log(error);
+			handleSubmission(false);
+		}
+	};
 
 	const acceptHandler = async (appId) => {
 		try {
@@ -62,6 +85,45 @@ const Dashboard = ({
 		);
 	};
 
+	const Search = (props) => {
+		return (
+			<tr>
+				<th>Search</th>
+				<th>
+					<Form.Control
+						placeholder="Enter App ID"
+						as="input"
+						onChange={(e) => setAppId(e.target.value)}
+					/>
+				</th>
+				<th>
+					<Form.Control
+						placeholder="Enter Name"
+						as="input"
+						onChange={(e) => setName(e.target.value)}
+					/>
+				</th>
+				<th>
+					<Form.Control
+						as="select"
+						defaultValue="All"
+						onChange={(e) => setCategory(e.target.value)}
+					>
+						<option value="All">All</option>
+						<option values="MS">MS</option>
+						<option values="Phd">Phd</option>
+					</Form.Control>
+				</th>
+				<th colSpan="2" />
+				<th>
+					<BorderedButton type="button" onClick={() => searchHandler()} disabled={isSubmitting}>
+						Search
+					</BorderedButton>
+				</th>
+			</tr>
+		);
+	};
+
 	if (dashboard?.success) {
 		const [{ submittedApplicantsDetails = [] } = {}, { acceptedApplicantsDetails = [] } = {}] =
 			dashboard.data || [];
@@ -76,17 +138,18 @@ const Dashboard = ({
 				onSelect={(k) => setKey(k)}
 			>
 				<Tab eventKey="submittedApplications" title="Submitted Applications">
-					<DisplayDashboard
+					<DisplayAdminDashboard
 						tableHeads={tableHeads}
 						handleClick={handleClick}
 						message={"waiting to be accepted"}
 						applicants={submittedApplicantsDetails}
 						actionButtons={[AcceptButton, RejectButton]}
 						buttonHandlers={[acceptHandler, rejectHandler]}
+						search={Search}
 					/>
 				</Tab>
 				<Tab eventKey="acceptedApplication" title="Accepted Application">
-					<DisplayDashboard
+					<DisplayAdminDashboard
 						message={"Accepted"}
 						handleClick={handleClick}
 						applicants={acceptedApplicantsDetails}
