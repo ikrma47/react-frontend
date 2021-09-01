@@ -1,0 +1,3 @@
+export const GET_SEMESTERS = "GET_SEMESTERS";
+export const GET_SEMESTER = "GET_SEMESTER";
+export const SUBMIT_SEMESTER = "SUBMIT_SEMESTER";
