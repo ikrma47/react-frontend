@@ -8,7 +8,7 @@ import {
 import {
   deletePreference,
   getCourse,
-  getDepartment,
+  getDepartmentByBatch,
   getPreferencesRecordById,
   submitPreference,
 } from "api";
@@ -31,9 +31,9 @@ export const getPreferencesRecordByIdAction = (appId) => async (dispatch) => {
   }
 };
 
-export const getDepartmentAction = () => async (dispatch) => {
+export const getDepartmentByBatchAction = (batchId) => async (dispatch) => {
   try {
-    let { data } = await getDepartment();
+    let { data } = await getDepartmentByBatch(batchId);
     dispatch({ type: GET_DEPARTMENT, payload: data });
   } catch (error) {
     console.log(error);

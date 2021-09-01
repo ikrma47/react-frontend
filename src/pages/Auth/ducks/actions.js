@@ -3,9 +3,9 @@ import {
   AUTH_USER,
   SIGNOUT,
   VERIFY_EMAIL_BY_OTP,
-} from 'pages/Auth/ducks/action-types';
-import { signupUser, authenticateUser, verifyEmailByOtp } from 'api';
-import { setUserToken } from 'utils/user';
+} from "pages/Auth/ducks/action-types";
+import { signupUser, authenticateUser, verifyEmailByOtp } from "api";
+import { setUserToken } from "utils/user";
 
 export const signupUserAction = ({ email, password, cnic }) => async (
   dispatch
@@ -25,11 +25,11 @@ export const authenticateUserAction = ({ emailOrCnic, password }) => async (
 ) => {
   try {
     let { data } = await authenticateUser({ emailOrCnic, password });
-    let [{ token, isAdmin, appId, isVerified, email }] = data.data;
+    let [{ token, isAdmin, appId, isVerified, email, batchId }] = data.data;
     setUserToken(token);
     dispatch({
       type: AUTH_USER,
-      payload: { isAdmin, appId, isVerified, email },
+      payload: { isAdmin, appId, isVerified, email, batchId },
     });
   } catch (e) {
     if (e.response?.status === 423)
@@ -43,11 +43,11 @@ export const verifyEmailByOtpAction = ({ email: userEmail, otp }) => async (
 ) => {
   try {
     let { data } = await verifyEmailByOtp({ email: userEmail, otp });
-    let [{ token, isAdmin, appId, isVerified, email }] = data.data;
+    let [{ token, isAdmin, appId, isVerified, email, batchId }] = data.data;
     setUserToken(token);
     dispatch({
       type: VERIFY_EMAIL_BY_OTP,
-      payload: { isAdmin, appId, isVerified, email },
+      payload: { isAdmin, appId, isVerified, email, batchId },
     });
   } catch (e) {
     return Promise.reject(e);
