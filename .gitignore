@@ -3,3 +3,4 @@
 /.eslintrc
 /.prettierrc
 /build
+/.env
