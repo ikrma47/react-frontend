@@ -20,11 +20,12 @@ export const signupUserAction = ({ email, password, cnic }) => async (
   }
 };
 
-export const authenticateUserAction = ({ emailOrCnic, password }) => async (
-  dispatch
-) => {
+export const authenticateUserAction = ({
+  email: emailOrCnic,
+  password,
+}) => async (dispatch) => {
   try {
-    let { data } = await authenticateUser({ emailOrCnic, password });
+    let { data } = await authenticateUser({ email: emailOrCnic, password });
     let [{ token, isAdmin, appId, isVerified, email, batchId }] = data.data;
     setUserToken(token);
     dispatch({

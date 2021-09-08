@@ -58,7 +58,7 @@ const Login = ({
     handleSubmission(true);
     const { emailOrCnic, password } = values;
     try {
-      await authenticateUserAction({ emailOrCnic, password });
+      await authenticateUserAction({ email: emailOrCnic, password });
       handleSubmission(false);
     } catch (error) {
       let fieldError = {};
