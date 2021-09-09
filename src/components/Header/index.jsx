@@ -1,13 +1,13 @@
-import React from 'react';
-import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
-import { APP_NAME } from 'config';
+import React from "react";
+import { Navbar, Nav, NavDropdown } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
+import { APP_NAME } from "config";
 import {
   UserDropDown,
   NavDropDownLink,
   AppTitle,
-} from 'components/Header/style';
+} from "components/Header/style";
 
 /**
  * Header is a template top navigation bar of user layout
@@ -16,30 +16,30 @@ const Header = () => {
   return (
     <Navbar
       collapseOnSelect
-      expand='lg'
-      bg='dark'
-      variant='dark'
-      style={{ position: 'sticky', top: '0', zIndex: '1071' }}
+      expand="lg"
+      bg="dark"
+      variant="dark"
+      style={{ position: "sticky", top: "0", zIndex: "1071" }}
     >
       <Navbar.Brand>
-        <AppTitle to='logout'>{APP_NAME}</AppTitle>
+        <AppTitle to="/">{APP_NAME}</AppTitle>
       </Navbar.Brand>
-      <Navbar.Toggle aria-controls='responsive-navbar-nav' />
-      <Navbar.Collapse id='responsive-navbar-nav'>
-        <Nav className='mr-auto'></Nav>
+      <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+      <Navbar.Collapse id="responsive-navbar-nav">
+        <Nav className="mr-auto"></Nav>
         <Nav>
           <UserDropDown
             alignRight
-            className='dropdown-menu-right'
-            title={<FontAwesomeIcon icon={faUserCircle} title='' />}
+            className="dropdown-menu-right"
+            title={<FontAwesomeIcon icon={faUserCircle} title="" />}
           >
-            <NavDropDownLink to='/'>Profile</NavDropDownLink>
+            <NavDropDownLink to="/">Profile</NavDropDownLink>
             <NavDropdown.Divider />
-            <NavDropDownLink to='/change-password'>
+            <NavDropDownLink to="/change-password">
               Change Password
             </NavDropDownLink>
             <NavDropdown.Divider />
-            <NavDropDownLink to='/logout'>Logout</NavDropDownLink>
+            <NavDropDownLink to="/logout">Logout</NavDropDownLink>
           </UserDropDown>
         </Nav>
       </Navbar.Collapse>
