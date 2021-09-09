@@ -245,4 +245,5 @@ export default connect(mapStateToProps, {
   deleteExperienceAction,
   getExperienceByIdAction,
   getApplicationStatusAction,
+  updateApplicationStatusAction,
 })(Experience);
