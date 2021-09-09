@@ -113,7 +113,7 @@ const Documents = ({
   async function handleUploadImage(docName) {
     handleSubmission(true);
     try {
-      await submitDocumentAction({ docName, file: refValues[docName] });
+      await submitDocumentAction({ docName, file: refValues[docName] }, appId);
       const documentStatus = captializeFirstLetterAndAddIsToDocName(docName);
       if (!applicationStatus[documentStatus])
         await updateApplicationStatusAction({ [documentStatus]: true }, appId);
