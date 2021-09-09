@@ -63,7 +63,7 @@ const Profile = ({
   const handleUploadImage = async () => {
     handleSubmission(true);
     try {
-      await updateProfilePictureAction(fileUpload.files[0]);
+      await updateProfilePictureAction(fileUpload.files[0], appId);
       handleSubmission(false);
     } catch (error) {
       console.log(error);
@@ -88,21 +88,24 @@ const Profile = ({
       courseCategory,
     } = values;
     try {
-      await updateProfileDetailsAction({
-        name,
-        fatherName,
-        domicile,
-        religion,
-        personalNumber,
-        optionalNumber,
-        dob,
-        mailingAddress,
-        residentialAddress,
-      });
-      await updateApplicationStatusAction({ isProfile: true });
+      await updateProfileDetailsAction(
+        {
+          name,
+          fatherName,
+          domicile,
+          religion,
+          personalNumber,
+          optionalNumber,
+          dob,
+          mailingAddress,
+          residentialAddress,
+        },
+        appId
+      );
+      await updateApplicationStatusAction({ isProfile: true }, appId);
       if (courseCategory.length > 0) {
-        await updateCourseCategoryAction({ courseCategory });
-        await updateApplicationStatusAction({ isCourseCategory: true });
+        await updateCourseCategoryAction({ courseCategory }, appId);
+        await updateApplicationStatusAction({ isCourseCategory: true }, appId);
       }
       handleSubmission(false);
       handleSuccessMsg(successNotification);
@@ -114,8 +117,6 @@ const Profile = ({
     }
   };
 
-  const [{ email, cnic, detail = {} } = {}] = profile?.data || [];
-
   const {
     name,
     fatherName,
@@ -126,7 +127,8 @@ const Profile = ({
     address: { mailingAddress, residentialAddress } = {},
     courseCategory,
     image,
-  } = detail || {};
+    user: { email, cnic } = {},
+  } = profile?.data[0] || {};
 
   const initialValues = {
     name: `${name || ""}`,
