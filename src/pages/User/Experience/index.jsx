@@ -65,7 +65,7 @@ const Experience = ({
     try {
       await submitExperienceAction({ values, start: from, end: to });
       if (experience?.data?.length == 1)
-        await updateApplicationStatusAction({ isExperience: true });
+        await updateApplicationStatusAction({ isExperience: true }, appId);
       handleSubmission(false);
       setModalShow(false);
     } catch (error) {
@@ -80,7 +80,7 @@ const Experience = ({
     try {
       await deleteExperienceAction(experienceId);
       if (experience?.data?.length == 0)
-        await updateApplicationStatusAction({ isExperience: false });
+        await updateApplicationStatusAction({ isExperience: false }, appId);
       handleSubmission(false);
     } catch (error) {
       console.log(error);
