@@ -20,25 +20,29 @@ export const getProfileByIdAction = (appId) => async (dispatch) => {
   } catch (error) {}
 };
 
-export const updateProfileDetailsAction = (dataObj) => async (dispatch) => {
+export const updateProfileDetailsAction = (dataObj, appId) => async (
+  dispatch
+) => {
   try {
-    let { data } = await updateProfileDetails(dataObj);
+    let { data } = await updateProfileDetails(dataObj, appId);
     dispatch({ type: UPDATE_PROFILE_DETAILS, payload: data });
   } catch (error) {
     console.log(error);
   }
 };
 
-export const updateCourseCategoryAction = (dataObj) => async (dispatch) => {
+export const updateCourseCategoryAction = (dataObj, appId) => async (
+  dispatch
+) => {
   try {
-    let { data } = await updateCourseCategory(dataObj);
+    let { data } = await updateCourseCategory(dataObj, appId);
     dispatch({ type: UPDATE_COURSE_CATEGORY, payload: data });
   } catch (error) {
     console.log(error);
   }
 };
 
-export const updateProfilePictureAction = (file) => async (dispatch) => {
+export const updateProfilePictureAction = (file, appId) => async (dispatch) => {
   try {
     let response = await getSignedUrl({
       fileName: file.name,
@@ -50,7 +54,7 @@ export const updateProfilePictureAction = (file) => async (dispatch) => {
     let options = { headers: { "Content-Type": file.type } };
 
     await AWSS3PutRequest(signedRequest, file, options);
-    let { data } = await updateProfilePicture({ profilePicture: url });
+    let { data } = await updateProfilePicture({ image: url }, appId);
     dispatch({ type: UPDATE_PROFILE_PICTURE, payload: data });
   } catch (error) {
     console.log(error);
