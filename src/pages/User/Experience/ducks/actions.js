@@ -10,7 +10,7 @@ export const getExperienceByIdAction = (appId) => async (dispatch) => {
     let { data } = await getExperienceById(appId);
     dispatch({ type: GET_EXPERIENCE_BY_ID, payload: data });
   } catch (error) {
-    console.log(error);
+    dispatch({ type: GET_EXPERIENCE_BY_ID, payload: error.response.data });
   }
 };
 
