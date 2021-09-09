@@ -60,16 +60,10 @@ const Experience = ({
   const [isSubmitting, handleSubmission] = useState(false);
   const { isSubmitted = false } = applicationStatus[0] || {};
 
-  const submitHandler = async ({
-    from: reversedStartingDate,
-    to: reversedEndingDate,
-    ...values
-  }) => {
+  const submitHandler = async ({ from, to, values }) => {
     handleSubmission(true);
     try {
-      let from = reversedStartingDate.split("-").reverse().join("-");
-      let to = reversedEndingDate.split("-").reverse().join("-");
-      await submitExperienceAction({ ...values, from, to });
+      await submitExperienceAction({ values, start: from, end: to });
       if (experience?.data?.length == 1)
         await updateApplicationStatusAction({ isExperience: true });
       handleSubmission(false);
