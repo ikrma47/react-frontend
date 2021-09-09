@@ -18,7 +18,9 @@ export const getDocumentByIdAction = (appId) => async (dispatch) => {
   }
 };
 
-export const submitDocumentAction = ({ docName, file }) => async (dispatch) => {
+export const submitDocumentAction = ({ docName, file }, appId) => async (
+  dispatch
+) => {
   try {
     let response = await getSignedUrl({
       fileName: file.name,
@@ -30,7 +32,7 @@ export const submitDocumentAction = ({ docName, file }) => async (dispatch) => {
     let options = { headers: { "Content-Type": file.type } };
     await AWSS3PutRequest(signedRequest, file, options);
 
-    let { data } = await submitDocument({ [docName]: url });
+    let { data } = await submitDocument({ [docName]: url }, appId);
     dispatch({ type: SUBMIT_DOCUMENT, payload: data });
   } catch (error) {
     console.log(error);
