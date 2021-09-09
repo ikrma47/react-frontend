@@ -14,9 +14,9 @@ export const getExperienceByIdAction = (appId) => async (dispatch) => {
   }
 };
 
-export const submitExperienceAction = (dataObj) => async (dispatch) => {
+export const submitExperienceAction = (dataObj, appId) => async (dispatch) => {
   try {
-    let { data } = await submitExperience(dataObj);
+    let { data } = await submitExperience(dataObj, appId);
     dispatch({ type: SUBMIT_EXPERIENCE, payload: data });
   } catch (error) {
     console.log(error);
