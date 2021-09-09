@@ -3,7 +3,7 @@ import getRoute from "api/routes";
 import { getUserToken } from "utils/user";
 
 export const setAuthToken = (token) => {
-  axios.defaults.headers.common["Authorization"] = `${token}`;
+  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 };
 
 function setAuthHeader() {
@@ -146,21 +146,21 @@ export const getProfileById = (appId) => {
   return getRequest(route);
 };
 
-export const updateProfilePicture = (dataObj) => {
+export const updateProfilePicture = (dataObj, appId) => {
   setAuthHeader();
-  const route = getRoute("updateProfilePicture");
+  const route = getRoute("updateProfilePicture", { appId });
   return patchRequest(route, dataObj);
 };
 
-export const updateProfileDetails = (dataObj) => {
+export const updateProfileDetails = (dataObj, appId) => {
   setAuthHeader();
-  const route = getRoute("updateProfileDetails");
+  const route = getRoute("updateProfileDetails", { appId });
   return patchRequest(route, dataObj);
 };
 
-export const updateCourseCategory = (dataObj) => {
+export const updateCourseCategory = (dataObj, appId) => {
   setAuthHeader();
-  const route = getRoute("updateCourseCategory");
+  const route = getRoute("updateCourseCategory", { appId });
   return patchRequest(route, dataObj);
 };
 
