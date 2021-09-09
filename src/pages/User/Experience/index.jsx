@@ -63,7 +63,12 @@ const Experience = ({
   const submitHandler = async ({ from, to, values }) => {
     handleSubmission(true);
     try {
-      await submitExperienceAction({ values, start: from, end: to });
+      await submitExperienceAction({
+        values,
+        start: from,
+        end: to,
+        user: appId,
+      });
       if (experience?.data?.length == 1)
         await updateApplicationStatusAction({ isExperience: true }, appId);
       handleSubmission(false);
