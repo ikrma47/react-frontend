@@ -107,7 +107,7 @@ const Submit = ({
       ) {
         handleSubmission(true);
         try {
-          await updateApplicationStatusAction({ isSubmitted: true });
+          await updateApplicationStatusAction({ isSubmitted: true }, appId);
           handleSubmission(false);
         } catch (error) {
           console.log(error);
