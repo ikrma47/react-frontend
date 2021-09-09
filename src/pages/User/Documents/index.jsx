@@ -116,7 +116,7 @@ const Documents = ({
       await submitDocumentAction({ docName, file: refValues[docName] });
       const documentStatus = captializeFirstLetterAndAddIsToDocName(docName);
       if (!applicationStatus[documentStatus])
-        await updateApplicationStatusAction({ [documentStatus]: true });
+        await updateApplicationStatusAction({ [documentStatus]: true }, appId);
       handleSubmission(false);
     } catch (error) {
       console.log(error);
