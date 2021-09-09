@@ -190,7 +190,7 @@ const Experience = ({
       </Button>
     );
   };
-  if (experience?.success) {
+  if (experience?.success || experience?.data) {
     return (
       <>
         <DisplayExperience
