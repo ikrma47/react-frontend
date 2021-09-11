@@ -119,7 +119,7 @@ export const resetPassowrd = (data) => {
 
 export const verifyEmailByOtp = (dataObj) => {
   const route = getRoute("verifyEmailByOtp");
-  return patchRequest(route, dataObj);
+  return postRequest(route, dataObj);
 };
 
 export const getUserDashboard = (appId) => {
