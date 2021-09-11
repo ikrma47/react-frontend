@@ -62,14 +62,17 @@ const Academics = ({
 
   const { isSubmitted = false } = applicationStatus[0] || {};
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async ({ id, ...values }) => {
     handleSubmission(true);
     try {
-      await submitAcademicsAction(values);
+      await submitAcademicsAction({ academics: { ...values } }, id);
       if (!applicationStatus[`is${values.examination.replace(/\s/g, "")}`])
-        await updateApplicationStatusAction({
-          [`is${values.examination.replace(/\s/g, "")}`]: true,
-        });
+        await updateApplicationStatusAction(
+          {
+            [`is${values.examination.replace(/\s/g, "")}`]: true,
+          },
+          appId
+        );
       handleSubmission(false);
       setModalShow(false);
     } catch (e) {

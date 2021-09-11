@@ -13,9 +13,9 @@ export const getAcademicsByIdAction = (appId) => async (dispatch) => {
   }
 };
 
-export const submitAcademicsAction = (values) => async (dispatch) => {
+export const submitAcademicsAction = (values, id) => async (dispatch) => {
   try {
-    let { data } = await submitAcademics(values);
+    let { data } = await submitAcademics(values, id);
     dispatch({ type: SUBMIT_ACADEMICS, payload: data });
   } catch (e) {
     console.log(e);
