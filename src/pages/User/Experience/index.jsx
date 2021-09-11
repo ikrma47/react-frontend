@@ -22,8 +22,8 @@ import {
 const defaultInitialValues = {
   jobTitle: "",
   organization: "",
-  from: "",
-  to: "",
+  start: "",
+  end: "",
   salary: "",
   duty: "",
 };
@@ -31,8 +31,8 @@ const defaultInitialValues = {
 const validate = Yup.object({
   jobTitle: Yup.string().required("Enter the Job Title"),
   organization: Yup.string().required("Enter the Organization or Department"),
-  from: Yup.date().required("Select Date"),
-  to: Yup.date().required("Select Date"),
+  start: Yup.date().required("Select Date"),
+  end: Yup.date().required("Select Date"),
   salary: Yup.string().required("Enter Salary or Grade"),
   duty: Yup.string().required("Enter the nature of Duty"),
 });
@@ -60,13 +60,11 @@ const Experience = ({
   const [isSubmitting, handleSubmission] = useState(false);
   const { isSubmitted = false } = applicationStatus[0] || {};
 
-  const submitHandler = async ({ from, to, values }) => {
+  const submitHandler = async (values) => {
     handleSubmission(true);
     try {
       await submitExperienceAction({
-        values,
-        start: from,
-        end: to,
+        ...values,
         user: appId,
       });
       if (experience?.data?.length == 1)
@@ -84,6 +82,7 @@ const Experience = ({
     handleSubmission(true);
     try {
       await deleteExperienceAction(experienceId);
+      await getExperienceByIdAction(appId);
       if (experience?.data?.length == 0)
         await updateApplicationStatusAction({ isExperience: false }, appId);
       handleSubmission(false);
@@ -127,8 +126,8 @@ const Experience = ({
             <Col md="auto" xs="auto">
               <TextField
                 label="Starting Date"
-                name="from"
-                placeholder="From"
+                name="start"
+                placeholder="Start"
                 type="date"
               />
             </Col>
@@ -140,8 +139,8 @@ const Experience = ({
             <Col md="auto" xs="auto">
               <TextField
                 label="Ending Date"
-                name="to"
-                placeholder="To"
+                name="end"
+                placeholder="End"
                 type="date"
               />
             </Col>
@@ -196,8 +195,8 @@ const Experience = ({
           tableHeads={[
             "Job Title",
             "Organization/ Depratment",
-            "From (DD-MM-YYYY)",
-            "To (DD-MM-YYYY)",
+            "From (YYYY-MM-DD)",
+            "To (YYYY-MM-DD)",
             "Salary/ Grade",
             "Nature of Duty",
             isSubmitted ? null : "Actions",
