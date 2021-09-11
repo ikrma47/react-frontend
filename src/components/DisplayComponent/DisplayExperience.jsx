@@ -24,8 +24,8 @@ const DisplayAcademics = ({
               <tr key={id}>
                 <td key={experience.jobTitle}>{experience.jobTitle}</td>
                 <td key={id + id}>{experience.organization}</td>
-                <td key={id + id + id}>{experience.from}</td>
-                <td key={experience.to + id + id}>{experience.to}</td>
+                <td key={id + id + id}>{experience.start}</td>
+                <td key={experience.to + id + id}>{experience.end}</td>
                 <td key={id + experience.salary + id}>{experience.salary}</td>
                 <td key={id + id + experience.duty}>{experience.duty}</td>
                 {actionButtons && (
