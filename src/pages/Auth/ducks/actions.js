@@ -42,9 +42,11 @@ export const authenticateUserAction = ({
   }
 };
 
-export const verifyEmailByOtpAction = ({ email: userEmail, otp }) => async (
-  dispatch
-) => {
+export const verifyEmailByOtpAction = ({
+  email: userEmail,
+  otp,
+  password,
+}) => async (dispatch) => {
   try {
     let { data } = await verifyEmailByOtp({ email: userEmail, otp, password });
     let [{ token, isAdmin, appId, isVerified, email, batchId }] = data.data;
