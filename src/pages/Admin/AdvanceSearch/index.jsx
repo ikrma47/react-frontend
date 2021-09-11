@@ -27,22 +27,22 @@ const validate = Yup.object({
 });
 
 const initialValues = {
-  appId: "all",
+  appId: "",
   appIdGreaterThan: "",
   appIdSmallerThan: "",
-  name: "all",
+  name: "",
   cnicNumber: "",
-  cnic: "all",
+  cnic: "",
   nameOfApplicant: "",
-  domicile: "all",
+  domicile: "",
   domiciles: "",
-  courses: "all",
+  courses: "",
   courseName: "",
-  departmentName: "all",
+  departmentName: "",
   departments: "",
-  courseCategory: "all",
+  courseCategory: "",
   greaterThanCgpa: "",
-  cgpa: "all",
+  cgpa: "",
   smallerThanCgpa: "",
 };
 
@@ -56,34 +56,6 @@ const AdvanceSearch = ({ history }) => {
   const [cnic, setCnic] = useState("all");
 
   function onSubmit(values) {
-    const SMALLEST_NUMBER = 0;
-    const LARGEST_NUMBER = 9999999;
-    const ANY_STRING = "%";
-
-    if (values.appId == "all") {
-      values.appIdGreaterThan = SMALLEST_NUMBER;
-      values.appIdSmallerThan = LARGEST_NUMBER;
-    } else {
-      values.appIdGreaterThan = values.appIdGreaterThan || SMALLEST_NUMBER;
-      values.appIdSmallerThan = values.appIdSmallerThan || LARGEST_NUMBER;
-    }
-
-    if (values.name == "all") values.name = ANY_STRING;
-    else values.name = values.nameOfApplicant;
-
-    if (values.domicile == "all") values.domicile = ANY_STRING;
-    else values.domicile = values.domiciles;
-
-    if (values.course == "all") values.courseName = ANY_STRING;
-
-    if (values.departmentName == "all") values.departmentName = ANY_STRING;
-    else values.departmentName = values.departments;
-
-    if (values.courseCategory == "all") values.courseCategory = ANY_STRING;
-
-    if (values.cnic == "all") values.cnic = ANY_STRING;
-    else values.cnic = values.cnicNumber;
-
     const {
       appIdGreaterThan,
       appIdSmallerThan,
@@ -97,7 +69,6 @@ const AdvanceSearch = ({ history }) => {
     const queryString = querystring.stringify({
       appIdGreaterThan,
       appIdSmallerThan,
-      appId: 0,
       name,
       domicile,
       cnic,
