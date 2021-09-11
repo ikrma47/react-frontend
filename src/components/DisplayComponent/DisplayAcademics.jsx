@@ -24,41 +24,44 @@ const DisplayAcademics = ({
               </tr>
             </thead>
             <tbody className="mt-2">
-              {academics?.map(({ id, examination, academics }) => (
-                <tr key={id}>
-                  <td key={examination}>{examination || ""}</td>
-                  <td key={id + id}>{academics[0].yearHeld || ""}</td>
-                  <td key={id + id + id}>{academics[0].maxMarks || ""}</td>
-                  <td key={examination + id + id}>
-                    {academics[0].obtainedMarks || ""}
-                  </td>
-                  <td key={id + examination + id}>{academics[0].cgpa || ""}</td>
-                  <td key={id + id + examination}>
-                    {academics[0].awards || ""}
-                  </td>
-                  <td key={id + examination}>{academics[0].institute || ""}</td>
-                  <td key={examination + id}>{academics[0].majors || ""}</td>
-                  {actionButtons && (
-                    <td>
-                      <ButtonGroup>
-                        {actionButtons?.map((ActionButton, idx) => {
-                          return (
-                            <ActionButton
-                              key={idx}
-                              onClick={() =>
-                                handleButtons[idx]({
-                                  examination,
-                                  ...academics[0],
-                                })
-                              }
-                            />
-                          );
-                        })}
-                      </ButtonGroup>
+              {academics?.map(
+                ({ id, examYear: { examination }, academics }) => (
+                  <tr key={id}>
+                    <td key={examination}>{examination || ""}</td>
+                    <td key={id + id}>{academics.yearHeld || ""}</td>
+                    <td key={id + id + id}>{academics.maxMarks || ""}</td>
+                    <td key={examination + id + id}>
+                      {academics.obtainedMarks || ""}
                     </td>
-                  )}
-                </tr>
-              ))}
+                    <td key={id + examination + id}>{academics.cgpa || ""}</td>
+                    <td key={id + id + examination}>
+                      {academics.awards || ""}
+                    </td>
+                    <td key={id + examination}>{academics.institute || ""}</td>
+                    <td key={examination + id}>{academics.majors || ""}</td>
+                    {actionButtons && (
+                      <td>
+                        <ButtonGroup>
+                          {actionButtons?.map((ActionButton, idx) => {
+                            return (
+                              <ActionButton
+                                key={idx}
+                                onClick={() =>
+                                  handleButtons[idx]({
+                                    examination,
+                                    ...academics,
+                                    id,
+                                  })
+                                }
+                              />
+                            );
+                          })}
+                        </ButtonGroup>
+                      </td>
+                    )}
+                  </tr>
+                )
+              )}
             </tbody>
           </Table>
         </Card.Body>
