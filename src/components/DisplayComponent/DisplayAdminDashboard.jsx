@@ -31,11 +31,11 @@ const DisplayDashboard = ({
             <tbody>
               {applicants?.map(function displayApplicantData(applicant) {
                 return (
-                  <tr key={`${applicant?.name} ${applicant?.appId}`}>
+                  <tr key={`${applicant?.name} ${applicant?.user?.appId}`}>
                     <td
-                      key={`${applicant?.appId} ${applicant?.image}`}
+                      key={`${applicant?.user?.appId} ${applicant?.image}`}
                       className="py-2"
-                      onClick={() => handleClick(applicant?.appId)}
+                      onClick={() => handleClick(applicant?.user?.appId)}
                     >
                       <Image
                         key={applicant?.image || unavailable}
@@ -46,44 +46,46 @@ const DisplayDashboard = ({
                       />
                     </td>
                     <td
-                      key={applicant?.appId || "appId"}
-                      onClick={() => handleClick(applicant?.appId)}
+                      key={applicant?.user?.appId || "appId"}
+                      onClick={() => handleClick(applicant?.user?.appId)}
                     >
-                      {applicant?.appId || "-"}
+                      {applicant?.user?.appId || "-"}
                     </td>
                     <td
                       key={applicant?.name || "name"}
-                      onClick={() => handleClick(applicant?.appId)}
+                      onClick={() => handleClick(applicant?.user?.appId)}
                     >
                       {applicant?.name || "-"}
                     </td>
                     <td
-                      key={`${applicant?.appId} ${
+                      key={`${applicant?.user?.appId} ${
                         applicant?.courseCategory || "courseCategory"
                       }`}
-                      onClick={() => handleClick(applicant?.appId)}
+                      onClick={() => handleClick(applicant?.user?.appId)}
                     >
                       {applicant?.courseCategory || "-"}
                     </td>
                     <td
                       key={`${applicant?.name} ${message || "message"}`}
-                      onClick={() => handleClick(applicant?.appId)}
+                      onClick={() => handleClick(applicant?.user?.appId)}
                     >
                       {message}
                     </td>
                     {actionButtons.length > 0 &&
                       actionButtons.map((Button, idx) => (
-                        <td key={`${applicant.appId} ${idx}`}>
+                        <td key={`${applicant.user?.appId} ${idx}`}>
                           <Button
-                            onClick={() => buttonHandlers[idx](applicant.appId)}
+                            onClick={() =>
+                              buttonHandlers[idx](applicant.user?.appId)
+                            }
                           />
                         </td>
                       ))}
-                    {applicant?.User?.applicationStatus?.isAccepted && (
+                    {applicant?.user?.applicationStatus?.isAccepted && (
                       <td
-                        key={`${applicant?.name} ${applicant?.User?.applicationStatus?.acceptedBy}`}
+                        key={`${applicant?.name} ${applicant?.user?.applicationStatus?.acceptedBy}`}
                       >
-                        {applicant?.User?.applicationStatus?.acceptedBy}
+                        {applicant?.user?.applicationStatus?.acceptedBy}
                       </td>
                     )}
                   </tr>
