@@ -128,9 +128,9 @@ export const getUserDashboard = (appId) => {
   return getRequest(route);
 };
 
-export const updateApplicationStatus = (dataObj) => {
+export const updateApplicationStatus = (dataObj, appId) => {
   setAuthHeader();
-  const route = getRoute("updateApplicationStatus");
+  const route = getRoute("updateApplicationStatus", { appId });
   return patchRequest(route, dataObj);
 };
 
@@ -170,10 +170,10 @@ export const getAcademicsById = (appId) => {
   return getRequest(route);
 };
 
-export const submitAcademics = (dataObj) => {
+export const submitAcademics = (dataObj, id) => {
   setAuthHeader();
-  const route = getRoute("submitAcademics");
-  return postRequest(route, dataObj);
+  const route = getRoute("submitAcademics", { id });
+  return patchRequest(route, dataObj);
 };
 
 export const getExperienceById = (appId) => {
@@ -199,9 +199,9 @@ export const getDocumentById = (appId) => {
   return getRequest(route);
 };
 
-export const submitDocument = (dataObj) => {
+export const submitDocument = (dataObj, appId) => {
   setAuthHeader();
-  const route = getRoute("submitDocument");
+  const route = getRoute("submitDocument", { appId });
   return patchRequest(route, dataObj);
 };
 
