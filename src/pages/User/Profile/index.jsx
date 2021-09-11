@@ -71,8 +71,7 @@ const Profile = ({
     }
   };
 
-  const handleSubmit = async ({ dob: reversedDob, ...values }) => {
-    let dob = reversedDob.split("-").reverse().join("-");
+  const handleSubmit = async (values) => {
     handleSubmission(true);
     handleSuccessMsg("");
     handleErrorMsg("");
@@ -83,6 +82,7 @@ const Profile = ({
       religion,
       personalNumber,
       optionalNumber,
+      dob,
       mailingAddress,
       residentialAddress,
       courseCategory,
@@ -94,11 +94,12 @@ const Profile = ({
           fatherName,
           domicile,
           religion,
-          personalNumber,
-          optionalNumber,
+          phoneNumber: {
+            primaryPhonNumber: personalNumber,
+            secondaryPhoneNumber: optionalNumber,
+          },
           dob,
-          mailingAddress,
-          residentialAddress,
+          address: { mailingAddress, residentialAddress },
         },
         appId
       );
@@ -122,13 +123,16 @@ const Profile = ({
     fatherName,
     domicile,
     religion,
-    phoneNumber: { personalNumber, optionalNumber } = {},
+    phoneNumber: {
+      primaryPhoneNumber: personalNumber,
+      secondaryPhoneNumber: optionalNumber,
+    } = {},
     dob,
     address: { mailingAddress, residentialAddress } = {},
     courseCategory,
     image,
     user: { email, cnic } = {},
-  } = profile?.data[0] || {};
+  } = profile?.data?.[0] || {};
 
   const initialValues = {
     name: `${name || ""}`,
@@ -139,7 +143,7 @@ const Profile = ({
     religion: `${religion || ""}`,
     personalNumber: `${personalNumber || ""}`,
     optionalNumber: `${optionalNumber || ""}`,
-    dob: `${dob?.split("-").reverse().join("-") || ""}`,
+    dob: `${dob || ""}`,
     residentialAddress: `${residentialAddress || ""}`,
     mailingAddress: `${mailingAddress || ""}`,
     courseCategory: `${courseCategory || ""}`,
