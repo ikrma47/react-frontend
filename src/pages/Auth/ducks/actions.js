@@ -34,7 +34,10 @@ export const authenticateUserAction = ({
     });
   } catch (e) {
     if (e.response?.status === 423)
-      dispatch({ type: AUTH_USER, payload: e.response.data.data[0] });
+      dispatch({
+        type: AUTH_USER,
+        payload: { ...e.response.data.data[0], password },
+      });
     return Promise.reject(e);
   }
 };
@@ -43,12 +46,12 @@ export const verifyEmailByOtpAction = ({ email: userEmail, otp }) => async (
   dispatch
 ) => {
   try {
-    let { data } = await verifyEmailByOtp({ email: userEmail, otp });
+    let { data } = await verifyEmailByOtp({ email: userEmail, otp, password });
     let [{ token, isAdmin, appId, isVerified, email, batchId }] = data.data;
     setUserToken(token);
     dispatch({
       type: VERIFY_EMAIL_BY_OTP,
-      payload: { isAdmin, appId, isVerified, email, batchId },
+      payload: { isAdmin, appId, isVerified, email, batchId, password: null },
     });
   } catch (e) {
     return Promise.reject(e);

@@ -20,7 +20,12 @@ const validate = Yup.object({
     .typeError("OTP must contains only numeric digits"),
 });
 
-const VerifyEmailByOtp = ({ verifyEmailByOtpAction, email, history }) => {
+const VerifyEmailByOtp = ({
+  verifyEmailByOtpAction,
+  email,
+  history,
+  password,
+}) => {
   React.useEffect(() => {
     if (!email) history.replace(AppRoutes.LOGIN.path);
   });
@@ -32,7 +37,7 @@ const VerifyEmailByOtp = ({ verifyEmailByOtpAction, email, history }) => {
     handleSubmission(true);
     const { otp } = values;
     try {
-      await verifyEmailByOtpAction({ email, otp });
+      await verifyEmailByOtpAction({ email, otp, password });
       handleSubmission(false);
     } catch (error) {
       handleSubmission(false);
@@ -73,7 +78,10 @@ const VerifyEmailByOtp = ({ verifyEmailByOtpAction, email, history }) => {
   );
 };
 
-const mapStateToProp = (state) => ({ email: state.auth.email });
+const mapStateToProp = (state) => ({
+  email: state.auth.email,
+  password: state.auth.password,
+});
 
 export default connect(mapStateToProp, { verifyEmailByOtpAction })(
   VerifyEmailByOtp
