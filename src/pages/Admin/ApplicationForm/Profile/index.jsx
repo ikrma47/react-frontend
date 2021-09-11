@@ -5,51 +5,54 @@ import { getProfileOfSelectedAppIdAction } from "pages/Admin/ApplicationForm/Pro
 import { Spinner as CenteredSpinner } from "elements/Spinner";
 
 const Profile = ({ appId, profile, getProfileOfSelectedAppIdAction }) => {
-	useEffect(() => {
-		async function getProfileById(appId) {
-			await getProfileOfSelectedAppIdAction(appId);
-		}
+  useEffect(() => {
+    async function getProfileById(appId) {
+      await getProfileOfSelectedAppIdAction(appId);
+    }
 
-		getProfileById(appId);
-	}, []);
+    getProfileById(appId);
+  }, [appId]);
+  const {
+    name,
+    fatherName,
+    domicile,
+    religion,
+    phoneNumber: {
+      primaryPhoneNumber: personalNumber,
+      secondaryPhoneNumber: optionalNumber,
+    } = {},
+    dob,
+    address: { mailingAddress, residentialAddress } = {},
+    courseCategory,
+    image,
+    user: { email, cnic } = {},
+  } = profile?.data?.[0] || {};
 
-	const [{ email, cnic, detail = {} } = {}] = profile?.data || [];
+  const initialValues = {
+    name: `${name || ""}`,
+    fatherName: `${fatherName || ""}`,
+    domicile: `${domicile || ""}`,
+    email: `${email || ""}`,
+    cnic: `${cnic || ""}`,
+    religion: `${religion || ""}`,
+    personalNumber: `${personalNumber || ""}`,
+    optionalNumber: `${optionalNumber || ""}`,
+    dob: `${dob || ""}`,
+    residentialAddress: `${residentialAddress || ""}`,
+    mailingAddress: `${mailingAddress || ""}`,
+    courseCategory: `${courseCategory || ""}`,
+    image,
+  };
 
-	const {
-		name,
-		fatherName,
-		domicile,
-		religion,
-		phoneNumber: { personalNumber, optionalNumber } = {},
-		dob,
-		address: { mailingAddress, residentialAddress } = {},
-		courseCategory,
-		image,
-	} = detail || {};
-
-	const initialValues = {
-		name: `${name || ""}`,
-		fatherName: `${fatherName || ""}`,
-		domicile: `${domicile || ""}`,
-		email: `${email || ""}`,
-		cnic: `${cnic || ""}`,
-		religion: `${religion || ""}`,
-		personalNumber: `${personalNumber || ""}`,
-		optionalNumber: `${optionalNumber || ""}`,
-		dob: `${dob?.split("-").reverse().join("-") || ""}`,
-		residentialAddress: `${residentialAddress || ""}`,
-		mailingAddress: `${mailingAddress || ""}`,
-		courseCategory: `${courseCategory || ""}`,
-		image,
-	};
-
-	if (profile?.success) return <DisplayProfile initialValues={initialValues} />;
-	else return <CenteredSpinner />;
+  if (profile?.success) return <DisplayProfile initialValues={initialValues} />;
+  else return <CenteredSpinner />;
 };
 
 const mapStateToProps = (state) => ({
-	appId: state.app.selectedAppId,
-	profile: state.admin.profile,
+  appId: state.app.selectedAppId,
+  profile: state.admin.profile,
 });
 
-export default connect(mapStateToProps, { getProfileOfSelectedAppIdAction })(Profile);
+export default connect(mapStateToProps, { getProfileOfSelectedAppIdAction })(
+  Profile
+);
