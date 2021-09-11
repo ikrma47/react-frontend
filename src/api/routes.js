@@ -10,7 +10,7 @@ const ROUTES_OBJ = {
   forgetPassowrd: `${API_BASE_PATH}/email-otp`,
   verifyOtp: `${API_BASE_PATH}/forget-password/verify-otp`,
   resetPassword: `${API_BASE_PATH}/forget-password/reset-password`,
-  verifyEmailByOtp: `${API_BASE_PATH}/verify-email/otp`,
+  verifyEmailByOtp: `${API_BASE_PATH}/verify-email/otp/`,
   getApplicationStatus: `${API_BASE_PATH}/application-status/<appId>/`,
   getProfile: `${API_BASE_PATH}/profile/<appId>/`,
   getAcademics: `${API_BASE_PATH}/academics/<appId>/`,
