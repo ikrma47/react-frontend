@@ -2,12 +2,16 @@ import { connect } from "react-redux";
 import querystring from "query-string";
 import { Tabs, Tab, Form } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
-import { selectAppIdAction } from "pages/App/ducks/actions";
+import {
+  selectAppIdAction,
+  unSelectAppIdAction,
+} from "pages/App/ducks/actions";
 import { Spinner as CenteredSpinner } from "elements/Spinner";
 import { BorderedButton, FilledButton } from "elements/Button";
 import DisplayAdminDashboard from "components/DisplayComponent/DisplayAdminDashboard";
 import {
   getAdminDashboardAction,
+  emptyApplicationFormAction,
   updateApplicationStatusByAdminAction,
 } from "pages/Admin/Dashboard/ducks/actions";
 import { adminDashboardRoutes } from "routes";
@@ -27,7 +31,9 @@ const Dashboard = ({
   history,
   dashboard,
   selectAppIdAction,
+  unSelectAppIdAction,
   getAdminDashboardAction,
+  emptyApplicationFormAction,
   updateApplicationStatusByAdminAction,
 }) => {
   useEffect(() => {
@@ -49,9 +55,7 @@ const Dashboard = ({
       const params = {
         name,
         appId,
-        courseCategory: category == "All" ? "%" : category,
-        appIdGreaterThan: 0,
-        appIdSmallerThan: 0,
+        courseCategory: category == "All" ? "" : category,
       };
       history.push(
         `${adminDashboardRoutes.ADMINDASHBOARD.path}?${querystring.stringify(
@@ -76,10 +80,14 @@ const Dashboard = ({
     }
   };
   const rejectHandler = (appId) => {
+    emptyApplicationFormAction();
+    unSelectAppIdAction();
     selectAppIdAction(appId);
     history.push("/admin/applicant/submission");
   };
   const handleClick = (appId) => {
+    emptyApplicationFormAction();
+    unSelectAppIdAction();
     selectAppIdAction(appId);
     history.push("/admin/applicant/profile");
   };
@@ -192,6 +200,8 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   updateApplicationStatusByAdminAction,
+  emptyApplicationFormAction,
   getAdminDashboardAction,
+  unSelectAppIdAction,
   selectAppIdAction,
 })(Dashboard);
